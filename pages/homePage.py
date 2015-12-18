@@ -13,7 +13,7 @@ __author__ = 'Rnd495'
 
 
 @app.route('/')
-def hello_world():
+def home():
     session = get_new_session()
     posts = session.query(Post).order_by(Post.post_time).all()
     html_content = render_template('home.html', posts=posts)

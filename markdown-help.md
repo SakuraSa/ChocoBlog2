@@ -48,7 +48,7 @@
 感谢以下的项目,排名不分先后
 
 * [flask](http://flask.pocoo.org/)
-* [jquery](http://jquery.com)
+* [jQuery](http://jquery.com)
 * [SQLAlchemy](http://www.sqlalchemy.org/)
 
 ##关于作者

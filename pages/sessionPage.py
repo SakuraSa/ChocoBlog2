@@ -5,7 +5,7 @@ import random
 import hashlib
 import datetime
 
-from flask import render_template, make_response, request, session, abort
+from flask import render_template, make_response, request, session, abort, redirect, url_for
 from core.application import app
 from core.models import get_new_session, User
 
@@ -28,6 +28,25 @@ def create_random_secret(seed=None):
     return hashlib.sha256(layer_one).hexdigest()
 
 
+def check_expire():
+    if session:
+        expire_date = session.get('expires', None)
+        if not expire_date:
+            return False
+        return expire_date < datetime.datetime.now()
+    return False
+
+
+def get_current_user():
+    if session:
+        if not check_expire():
+            if 'user' in session:
+                del session['user']
+        else:
+            return session.get('user', None)
+    return None
+
+
 @app.route('/sign-in', methods=['GET', 'POST'])
 def sign_in():
     if request.method == 'GET':
@@ -48,8 +67,16 @@ def sign_in():
 
         if not user or password != hashlib.sha256(secret + user.pwd).hexdigest():
             abort(401)
-        response = make_response('Hello ' + user.name)
-        expire_date = datetime.datetime.now()
-        expire_date = expire_date + datetime.timedelta(days=30)
-        response.set_cookie('id', str(user.id), expires=expire_date)
-        return response
+        expire_date = datetime.datetime.now() + datetime.timedelta(days=30)
+        session['user'] = user
+        session['expires'] = expire_date
+        return redirect(url_for('home'))
+
+
+@app.route('/sign-out', methods=['GET'])
+def sign_out():
+    if 'user' in session:
+        del session['user']
+    if 'expires' in session:
+        del session['expires']
+    return redirect(url_for('home'))
