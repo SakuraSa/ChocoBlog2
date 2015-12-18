@@ -4,17 +4,14 @@
         <h1 id="title-h">ChocoBlog2</h1>
         <small>this is subtitle, no one even notice this</small>
     </div>
+    {% for post in posts %}
     <div class="card">
         <div class="card-content">
-            <h1>Post Title</h1>
-            <small>admin 2015/08/01</small>
+            <h1>{{ post.title }}</h1>
+            <small>{{ post.author.name }} {{ post.post_time | datetime_format }}</small>
             <hr/>
             <div id="content-main">
-
-                <h2>子标题</h2>
-                <p>这里是一些文字，可能有几行那么长。这里是一些文字，可能有几行那么长。这里是一些文字，可能有几行那么长。这里是一些文字，可能有几行那么长。</p>
-                <a href="#">this is links</a>
-
+                {{ post.content | markdown }}
             </div>
             <hr/>
         </div>
@@ -22,4 +19,5 @@
             <p>this is some line</p>
         </div>
     </div>
+    {% endfor %}
 {% endblock %}

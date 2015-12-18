@@ -94,9 +94,9 @@ class Role(Base):
     @staticmethod
     def init_data(_):
         session = get_new_session()
-        session.add(Role(u"站长", 1))
-        session.add(Role(u"管理员", 2))
-        session.add(Role(u"会员", 3))
+        session.add(Role(name=u"站长", id=1))
+        session.add(Role(name=u"管理员", id=2))
+        session.add(Role(name=u"会员", id=3))
         session.commit()
         session.close()
 
@@ -113,13 +113,30 @@ class Post(Base):
 
     author = relationship("User", uselist=False, backref="T_Post")
 
-    def __init__(self, title, content):
+    def __init__(self, title, content, author_id):
         self.title = title
         self.content = content
         self.post_time = datetime.datetime.now()
+        self.author_id = author_id
 
     def __repr__(self):
         return "<Post[%s]: %s>" % (self.id, self.title)
+
+    @staticmethod
+    def init_data(_):
+        import os.path
+        from core.configs import ROOT_PATH
+
+        md_file_name = os.path.join(ROOT_PATH, 'markdown-help.md')
+        if os.path.exists(md_file_name):
+            title = u'Markdown Help'
+            with open(md_file_name, 'rb') as file_handle:
+                content = file_handle.read().decode('utf-8')
+
+            session = get_new_session()
+            session.add(Post(title=title, content=content, author_id=1))
+            session.commit()
+            session.close()
 
 _engine = None
 _session_maker = None
