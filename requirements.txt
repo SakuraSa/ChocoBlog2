@@ -1,0 +1,4 @@
+--index https://pypi.python.org/simple/
+
+Flask=0.10.1
+SQLAlchemy==1.0.10

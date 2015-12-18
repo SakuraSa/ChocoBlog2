@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+  <div id="header-center">
+    <h1 id="title-h">ChocoBlog2</h1>
+    <small>this is subtitle, no one even notice this</small>
+  </div>
+  <div class="card" style="max-width: 500px; margin-left: auto; margin-right: auto; text-align: center;">
+    <h1>Sign-in</h1>
+    <form action="/sign-in" method="post" name="sign-in-form" onsubmit="do_hash(this);">
+      <input class="form-control" type="hidden" name="secret" value="{{ secret }}">
+      <div class="form-group">
+        <label for="input-username">username</label><br>
+        <input class="form-control" type="text" id="input-username" name="username" required>
+      </div>
+      <div class="form-group">
+        <label for="input-password">password</label><br>
+        <input class="form-control" type="password" id="input-password" name="password" required>
+      </div>
+      <input type="submit">
+    </form>
+  </div>
+
+  <script src="/static/js/sha256.min.js"></script>
+  <script>
+    var do_hash = function(form_object) {
+      form_object.password.value=hex_sha256(form_object.secret.value + hex_sha256(form_object.password.value));
+    };
+  </script>
+{% endblock %}
