@@ -5,7 +5,7 @@ import random
 import hashlib
 import datetime
 
-from flask import render_template, make_response, request, session, abort, redirect, url_for
+from flask import render_template, request, session, abort, redirect, url_for
 from core.application import app
 from core.models import get_new_session, User
 

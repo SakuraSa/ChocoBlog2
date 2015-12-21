@@ -1,23 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
-    <div id="header-center">
-        <h1 id="title-h">ChocoBlog2</h1>
-        <small>this is subtitle, no one even notice this</small>
-    </div>
-    {% for post in posts %}
+  <div id="header-center">
+    <h1 id="title-h">ChocoBlog2</h1>
+    <small>this is subtitle, no one even notice this</small>
+  </div>
+  {% for post in posts %}
     <div class="card">
-        <div class="card-content">
-            <h1>{{ post.title }}</h1>
-            <small>{{ post.author.name }} {{ post.post_time | datetime_format }}</small>
-            <hr/>
-            <div id="content-main">
-                {{ post.content | markdown }}
-            </div>
-            <hr/>
+      <div class="card-content">
+        <h1>{{ post.title }}</h1>
+        <small>{{ post.author.name }} {{ post.post_time | datetime_format }}</small>
+        <hr/>
+        <div id="content-main">
+          {{ post.content | markdown }}
         </div>
-        <div class="card-comment">
-            <p>this is some line</p>
-        </div>
+        <hr/>
+      </div>
+      <div class="card-comment">
+        <p>this is some line</p>
+      </div>
     </div>
-    {% endfor %}
+  {% endfor %}
 {% endblock %}

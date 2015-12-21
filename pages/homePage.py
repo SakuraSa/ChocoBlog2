@@ -12,7 +12,7 @@ homePage
 __author__ = 'Rnd495'
 
 
-@app.route('/')
+@app.route('/', methods=['GET'])
 def home():
     session = get_new_session()
     posts = session.query(Post).order_by(Post.post_time).all()
