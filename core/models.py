@@ -109,9 +109,10 @@ class Post(Base):
     author_id = Column(Integer, ForeignKey('T_User.id'), nullable=False)
     title = Column(String(length=128), nullable=False)
     content = Column(Text, nullable=False)
-    post_time = Column(DateTime, nullable=False)
+    post_time = Column(DateTime, nullable=False, index=Index('Post_index_post_time'))
 
     author = relationship("User", uselist=False, backref="T_Post")
+    tags = relationship("Tag", uselist=True, backref="T_Post")
 
     def __init__(self, title, content, author_id):
         self.title = title
@@ -121,6 +122,13 @@ class Post(Base):
 
     def __repr__(self):
         return "<Post[%s]: %s>" % (self.id, self.title)
+
+    def add_tags(self, *tags):
+        session = get_new_session()
+        for tag in tags:
+            session.add(Tag(tag, self.id))
+        session.commit()
+        session.close()
 
     @staticmethod
     def init_data(_):
@@ -134,9 +142,28 @@ class Post(Base):
                 content = file_handle.read().decode('utf-8')
 
             session = get_new_session()
-            session.add(Post(title=title, content=content, author_id=1))
+            welcome_post = Post(title=title, content=content, author_id=1)
+            session.add(welcome_post)
             session.commit()
+            welcome_post.add_tags('help', 'markdown')
             session.close()
+
+
+@model
+class Tag(Base):
+    __tablename__ = 'T_Tag'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(length=64), nullable=False)
+    post_id = Column(Integer, ForeignKey('T_Post.id'), nullable=False)
+
+    post = relationship("Post", uselist=False, backref="T_Tag")
+
+    def __init__(self, name, post_id):
+        self.name = name
+        self.post_id = post_id
+
+    def __repr__(self):
+        return "<Tag[%s]: %s>" % (self.id, self.name)
 
 _engine = None
 _session_maker = None

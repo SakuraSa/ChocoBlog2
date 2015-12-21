@@ -23,7 +23,7 @@
       <label id="login-button" class="icon-button"><i class="fa fa-user"></i></label>
       <div id="layout-shadow"></div>
       <div id="avatar-sidebar">
-        <img src="https://ooo.0o0.ooo/2015/07/21/55add5fd4b0a8.jpg">
+        <img src="/static/image/avatar.jpg">
         <h1>Rnd495</h1>
         <small>NEET + Otaku = オワタ(＾O＾)/</small>
         <p id="introduce-sidebar">No introduction for lazy one.</p>
@@ -46,8 +46,11 @@
   <script>
     $(function () {
       var cover = $('#cover-label-layout'), check_sidebar = $('#check-sidebar');
+      var container = $('#container-content');
       check_sidebar.click(function () {
         cover.css('left', this.checked ? '250px' : '10px');
+        cover.find('i').removeClass('fa-bars fa-arrow-left').addClass(this.checked ? 'fa-arrow-left' : 'fa-bars');
+        container.css('left', this.checked ? '300px' : '0');
       });
     });
   </script>
