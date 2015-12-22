@@ -7,7 +7,7 @@ import datetime
 
 from flask import render_template, request, session, abort, redirect, url_for
 from core.application import app
-from core.models import get_new_session, User
+from core.models import DatabaseContext, User
 
 
 """
@@ -53,24 +53,25 @@ def sign_in():
         secret = create_random_secret()
         session['secret'] = secret
         return render_template('sign-in.html', secret=secret)
-    else:
+    elif request.method == 'POST':
         secret = session.get('secret', '')
         if secret != request.form['secret']:
-            abort(401)
+            abort(403)
 
         username = request.form['username']
         password = request.form['password']
 
-        db = get_new_session()
-        user = db.query(User).filter(User.name == username).first()
-        db.close()
+        with DatabaseContext() as db:
+            user = db.query(User).filter(User.name == username).first()
 
         if not user or password != hashlib.sha256(secret + user.pwd).hexdigest():
-            abort(401)
+            abort(403)
         expire_date = datetime.datetime.now() + datetime.timedelta(days=30)
         session['user'] = user
         session['expires'] = expire_date
         return redirect(url_for('home'))
+    else:
+        abort(405)
 
 
 @app.route('/sign-out', methods=['GET'])

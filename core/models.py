@@ -5,7 +5,7 @@ import datetime
 import hashlib
 
 from sqlalchemy import create_engine
-from sqlalchemy import Column, Integer, String, DateTime, Index, Text, ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime, Index, Text, Boolean, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 
@@ -110,15 +110,17 @@ class Post(Base):
     title = Column(String(length=128), nullable=False)
     content = Column(Text, nullable=False)
     post_time = Column(DateTime, nullable=False, index=Index('Post_index_post_time'))
+    hidden = Column(Boolean, nullable=False, default=False)
 
     author = relationship("User", uselist=False, backref="T_Post")
     tags = relationship("Tag", uselist=True, backref="T_Post")
 
-    def __init__(self, title, content, author_id):
+    def __init__(self, title, content, author_id, hidden=False):
         self.title = title
         self.content = content
         self.post_time = datetime.datetime.now()
         self.author_id = author_id
+        self.hidden = hidden
 
     def __repr__(self):
         return "<Post[%s]: %s>" % (self.id, self.title)
@@ -215,3 +217,32 @@ def create_all(engine):
 
 def drop_all(engine):
     Base.metadata.drop_all(engine)
+
+
+class DatabaseContext(object):
+    """
+    DatabaseContext
+
+    Usage:
+
+        with DatabaseContext() as db:
+            pass
+            // db operations here
+
+    Same effect as:
+
+        db = get_new_session()
+        pass
+        // db operations here
+        db.close()
+
+    """
+    def __init__(self, session=None):
+        self.session = session
+
+    def __enter__(self):
+        self.session = self.session or get_new_session()
+        return self.session
+
+    def __exit__(self, *_):
+        self.session.close()
