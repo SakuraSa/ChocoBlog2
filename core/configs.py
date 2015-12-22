@@ -48,6 +48,7 @@ class Configs(object):
     """
     Configs
     """
+    INSTANCE_NAME = "_instance"
 
     def __init__(self, config_file_name):
         with open(config_file_name, 'rb') as file_handle:
@@ -74,16 +75,20 @@ class Configs(object):
             if self.__dict__.get(name, None) is None:
                 raise ConfigsError('ConfigsError: property "%s" is not set' % name)
 
-    @staticmethod
-    def instance(config_file_name=None):
-        if not hasattr(Configs, "_instance"):
-            Configs._instance = Configs(config_file_name or CONFIG_PATH_NOW)
-        return Configs._instance
+    @classmethod
+    def instance(cls, config_file_name=None):
+        if not hasattr(cls, cls.INSTANCE_NAME):
+            cls.reload_instance(config_file_name)
+        return getattr(cls, cls.INSTANCE_NAME)
 
-    @staticmethod
-    def clear_instance():
-        if hasattr(Configs, "_instance"):
-            delattr(Configs, "_instance")
+    @classmethod
+    def reload_instance(cls, config_file_name=None):
+        setattr(cls, cls.INSTANCE_NAME, cls(config_file_name or CONFIG_PATH_NOW))
+
+    @classmethod
+    def clear_instance(cls):
+        if hasattr(cls, cls.INSTANCE_NAME):
+            delattr(cls, cls.INSTANCE_NAME)
 
 
 if __name__ == '__main__':
