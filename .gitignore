@@ -65,3 +65,7 @@ target/
 
 # sqlite db
 sqlite-db/
+
+# now configs
+config/now.conf
+config/test.conf
