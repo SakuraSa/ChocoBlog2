@@ -6,15 +6,16 @@
   </div>
   <div class="card">
     <div class="card-content">
+      <div class="card-date-box">
+        <span class="card-date-box-day">{{ post.post_time.day }}</span><br>
+        <span class="card-date-box-month">{{ post.post_time.month }}</span>
+        <span class="card-date-box-year">{{ post.post_time.year }}</span>
+      </div>
       <h1>{{ post.title }}</h1>
-      <small>{{ post.author.name }} {{ post.post_time }}</small>
+      <small>{% for tag in post.tags %}<a href="#" class="tag-label">{{ tag.name }}</a>{% endfor %}</small>
       <hr/>
       <div id="content-main">
-
-        <h2>子标题</h2>
-        <p>这里是一些文字，可能有几行那么长。这里是一些文字，可能有几行那么长。这里是一些文字，可能有几行那么长。这里是一些文字，可能有几行那么长。</p>
-        <a href="#">this is links</a>
-
+        {{ post.content | markdown }}
       </div>
       <hr/>
     </div>

@@ -1,0 +1,15 @@
+{% macro pagination(sqlitor, index=0, size=10) %}
+  {% set total_item_count = sqlitor.count() %}
+  {% set item_offset = index * size %}
+  {% set item_limit = size %}
+  <div class="pagination-item-list">
+    {% for item in sqlitor.offset(item_offset).limit(item_limit).all() %}
+      <div class="pagination-item">
+        {{ caller(item, item_offset + loop.index) }}
+      </div>
+    {% endfor %}
+  </div>
+  <div class="pagination-pager">
+
+  </div>
+{% endmacro %}

@@ -3,7 +3,7 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/ChocoBlog2.py" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/static/css/base.css" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/templates/home.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/templates/post_list.html" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

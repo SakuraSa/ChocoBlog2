@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% import "macro/pagination.html" as pagination %}
+{% block content %}
+  <div id="header-center">
+    <h1 id="title-h">ChocoBlog2</h1>
+    <small>this is subtitle, no one even notice this</small>
+  </div>
+  {% call(post, post_index) pagination.pagination(sqlite, index, size) %}
+    <div class="card">
+      <div class="card-content">
+        <div class="card-date-box">
+          <span class="card-date-box-day">{{ post.post_time.day }}</span><br>
+          <span class="card-date-box-month">{{ post.post_time.month }}</span>
+          <span class="card-date-box-year">{{ post.post_time.year }}</span>
+        </div>
+        <h1><strong>{{ post_index }}.</strong><a href="/post/{{ post.id }}">{{ post.title }}</a></h1>
+        <small>{% for tag in post.tags %}<a href="/tag/{{ tag.name }}" class="tag-label">{{ tag.name }}</a>{% endfor %}</small>
+      </div>
+    </div>
+  {% endcall %}
+{% endblock %}

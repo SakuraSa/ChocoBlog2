@@ -184,6 +184,31 @@ a {
 .card-content {
   width: 100%; }
 
+.card-date-box {
+  display: block;
+  position: relative;
+  float: right;
+  top: 0;
+  right: 0;
+  height: 65px;
+  width: 80px;
+  background-color: #e9e9ec;
+  border-radius: 3px;
+  padding: 15px 0 0 0;
+  text-align: center;
+  font-size: 18px;
+  color: #666666; }
+  .card-date-box > .card-date-box-day {
+    font-size: 36px;
+    font-weight: bolder;
+    top: 10px; }
+  .card-date-box > .card-date-box-month {
+    font-size: 12px;
+    font-weight: normal; }
+  .card-date-box > .card-date-box-year {
+    font-size: 12px;
+    font-weight: normal; }
+
 #content-main {
   width: 100%;
   display: block; }
