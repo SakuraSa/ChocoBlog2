@@ -20,7 +20,7 @@
     <label for="check-sidebar" id="cover-label-layout" class="icon-button"><i class="fa fa-bars"></i></label>
     <input type="checkbox" id="check-sidebar">
     <div id="float-sidebar">
-      <label id="login-button" class="icon-button" onclick="window.location='/sign-in';"><i class="fa fa-user"></i></label>
+      <label id="login-button" class="icon-button" onclick="window.location='{{ url_for('sign_in') }}';"><i class="fa fa-user"></i></label>
       <div id="layout-shadow"></div>
       <div id="avatar-sidebar">
         <img src="/static/image/avatar.jpg">
