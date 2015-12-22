@@ -40,17 +40,28 @@
   <div id="container-content">
     {% block content %}<p>This is Base template.</p>{% endblock %}
   </div>
+  <label id="to-top-button" class="icon-button" onclick="window.scrollTo(0, 0);"><i class="fa fa-arrow-up"></i></label>
 {% endblock %}
 {% block footer %}
-  <script src="http://cdn.bootcss.com/jquery/2.1.3/jquery.min.js"></script>
+  <script src="/static/js/jquery.min.js"></script>
   <script>
     $(function () {
       var cover = $('#cover-label-layout'), check_sidebar = $('#check-sidebar');
       var container = $('#container-content');
-      check_sidebar.click(function () {
+      check_sidebar.change(function () {
         cover.css('left', this.checked ? '250px' : '10px');
         cover.find('i').removeClass('fa-bars fa-arrow-left').addClass(this.checked ? 'fa-arrow-left' : 'fa-bars');
         container.css('left', this.checked ? '300px' : '0');
+      });
+      var show_to_top_button = false;
+      $(window).scroll(function() {
+        var scrollTop=document.body.scrollTop||document.documentElement.scrollTop;
+        var now = scrollTop > 300;
+        if(show_to_top_button != now) {
+          if(now) $('#to-top-button').fadeIn();
+          else $('#to-top-button').fadeOut();
+        }
+        show_to_top_button = now;
       });
     });
   </script>
