@@ -43,7 +43,13 @@ def get_current_user():
             if 'user' in session:
                 del session['user']
         else:
-            return session.get('user', None)
+            user_id = session.get('user', None)
+            with DatabaseContext() as db:
+                if user_id is not None:
+                    user = db.query(User).filter(User.id == user_id).one()
+                else:
+                    user = None
+                return user
     return None
 
 
@@ -67,7 +73,7 @@ def sign_in():
         if not user or password != hashlib.sha256(secret + user.pwd).hexdigest():
             abort(403)
         expire_date = datetime.datetime.now() + datetime.timedelta(days=30)
-        session['user'] = user
+        session['user'] = user.id
         session['expires'] = expire_date
         return redirect(url_for('post_list'))
     else:
