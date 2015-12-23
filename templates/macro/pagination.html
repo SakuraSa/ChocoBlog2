@@ -1,15 +1,16 @@
-{% macro pagination(sqlitor, index=0, size=10) %}
-  {% set total_item_count = sqlitor.count() %}
-  {% set item_offset = index * size %}
-  {% set item_limit = size %}
+{% macro pagination(page) %}
   <div class="pagination-item-list">
-    {% for item in sqlitor.offset(item_offset).limit(item_limit).all() %}
+    {% for item in page.items %}
       <div class="pagination-item">
-        {{ caller(item, item_offset + loop.index) }}
+        {{ caller(item, page.offset + loop.index) }}
       </div>
     {% endfor %}
   </div>
   <div class="pagination-pager">
-
+    <div class="pagination-index-detail"><span>{{ page.index + 1 }}</span>/<span>{{ page.total_page }}</span></div>
+    {% if not page.single_pag %}
+      {% if page.has_pre %}<div class="pagination-pre"><a href="{{ page.pre_url }}">pre</a></div>{% endif %}
+      {% if page.has_next %}<div class="pagination-next"><a href="{{ page.next_url }}">next</a></div>{% endif %}
+    {% endif %}
   </div>
 {% endmacro %}

@@ -69,7 +69,7 @@ def sign_in():
         expire_date = datetime.datetime.now() + datetime.timedelta(days=30)
         session['user'] = user
         session['expires'] = expire_date
-        return redirect(url_for('home'))
+        return redirect(url_for('post_list'))
     else:
         abort(405)
 
@@ -80,4 +80,4 @@ def sign_out():
         del session['user']
     if 'expires' in session:
         del session['expires']
-    return redirect(url_for('home'))
+    return redirect(url_for('post_list'))
