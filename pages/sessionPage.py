@@ -39,7 +39,7 @@ def check_expire():
 
 def get_current_user():
     if session:
-        if not check_expire():
+        if check_expire():
             if 'user' in session:
                 del session['user']
         else:

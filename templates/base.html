@@ -40,7 +40,7 @@
   <div id="container-content">
     {% block content %}<p>This is Base template.</p>{% endblock %}
   </div>
-  <label id="to-top-button" class="icon-button" onclick="window.scrollTo(0, 0);"><i class="fa fa-arrow-up"></i></label>
+  <label id="to-top-button" class="icon-button"><i class="fa fa-arrow-up"></i></label>
 {% endblock %}
 {% block footer %}
   <script src="/static/js/jquery.min.js"></script>
@@ -62,6 +62,10 @@
           else $('#to-top-button').fadeOut();
         }
         show_to_top_button = now;
+      });
+      $('#to-top-button').click(function(){
+        $("html, body").animate({ scrollTop: 0 }, 600);
+        return false;
       });
     });
   </script>

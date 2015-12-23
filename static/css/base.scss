@@ -103,6 +103,10 @@ h1 > a {
   }
 }
 
+a.text-danger {
+  color: #ee3333;
+}
+
 .icon-button {
   display: block;
   width: 40px;
@@ -250,6 +254,8 @@ h1 > a {
 }
 
 .card {
+  display: block;
+  position: relative;
   background-color: $very-light-color-background-color;
   min-height: 100px;
   width: 80%;
@@ -298,20 +304,20 @@ h1 > a {
 
 .card-date-box {
   display: block;
-  position: relative;
-  float: right;
-  top: 0;
-  right: 0;
-  height: 65px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  height: 55px;
   width: 80px;
   background-color: darken($light-color-background-color, 5%);
   border-radius: 40px;
-  padding: 15px 0 0 0;
+  padding: 25px 0 0 0;
   text-align: center;
   font-size: 18px;
   color: $inactive-color;
   transition: $main-transition-time ease color;
   cursor: default;
+  line-height: 90%;
 
   &:hover {
     color: $dark-color-font-color;
@@ -320,7 +326,6 @@ h1 > a {
   &> .card-date-box-day{
     font-size: 36px;
     font-weight: bolder;
-    top: 10px;
   }
 
   &> .card-date-box-month{
@@ -331,6 +336,15 @@ h1 > a {
   &> .card-date-box-year{
     font-size: 12px;
     font-weight: normal;
+  }
+}
+
+.admin-operation {
+  display: block;
+  a {
+    position: relative;
+    right: 0;
+    float: right;
   }
 }
 

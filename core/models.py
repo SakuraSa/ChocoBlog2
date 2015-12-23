@@ -155,7 +155,7 @@ class Post(Base):
 class Tag(Base):
     __tablename__ = 'T_Tag'
     id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String(length=64), nullable=False)
+    name = Column(String(length=64), nullable=False, index=Index('Tag_index_name'))
     post_id = Column(Integer, ForeignKey('T_Post.id'), nullable=False)
 
     post = relationship("Post", uselist=False, backref="T_Tag")
