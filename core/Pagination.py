@@ -40,7 +40,7 @@ class Pagination(object):
 
     @property
     def has_pre(self):
-        return bool(self.index)
+        return self.index > 0
 
     @property
     def has_next(self):

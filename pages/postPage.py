@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 # coding=utf-8
 
+import datetime
+
 from flask import render_template, abort, request, redirect, url_for
+
 from core.application import app
 from core.models import DatabaseContext, Post, Tag
 from core.configs import Configs
@@ -65,16 +68,49 @@ def new_post():
     if request.method == 'GET':
         return edit_post(post_id=None)
     elif request.method == 'POST':
-        return 'read from request.form and save new post'
+        post_id = int(request.form['post_id']) if request.form['post_id'] else None
+        post_title = request.form['post_title']
+        post_tags_text = [tag.strip() for tag in request.form['post_tags'].split(',') if tag.strip()]
+        post_hidden = 'post_hidden' in request.form
+        post_content = request.form['post_content']
+        current_user = get_current_user()
+
+        if post_id is None:
+            post = Post(title=post_title, content=post_content, author_id=current_user.id, hidden=post_hidden)
+            with DatabaseContext() as db:
+                db.add(post)
+                db.commit()
+                post_id = post.id
+                post.add_tags(*post_tags_text)
+        else:
+            with DatabaseContext() as db:
+                post = db.query(Post).filter(Post.id == post_id).first()
+                if not post:
+                    abort(404)
+                post.title = post_title
+                post.content = post_content
+                post.author_id = current_user.id
+                post.hidden = post_hidden
+                post.post_time = datetime.datetime.now()
+                db.commit()
+                post.clear_tags()
+                post.add_tags(*post_tags_text)
+
+        return redirect(url_for('post_show', post_id=post_id))
 
 
 @app.route('/post/edit/<int:post_id>', methods=['GET'])
 @need_authorized
 def edit_post(post_id):
+    now = datetime.datetime.now()
     if post_id is None:
-        return 'show empty form'
+        return render_template('post_edit.html', post=None, now=now)
     else:
-        return 'show post'
+        with DatabaseContext() as db:
+            post = db.query(Post).filter(Post.id == post_id).first()
+            if not post:
+                abort(404)
+            return render_template('post_edit.html', post=post, now=now)
 
 
 @app.route('/post/delete/<int:post_id>')

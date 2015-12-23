@@ -66,14 +66,13 @@ class User(Base):
 
     @staticmethod
     def init_data(config):
-        session = get_new_session()
-        session.add(User(
-            name=config.init_admin_username,
-            pwd=hashlib.sha256(config.init_admin_password).hexdigest(),
-            role_id=1
-        ))
-        session.commit()
-        session.close()
+        with DatabaseContext() as db:
+            db.add(User(
+                name=config.init_admin_username,
+                pwd=hashlib.sha256(config.init_admin_password).hexdigest(),
+                role_id=1
+            ))
+            db.commit()
 
 
 @model
@@ -93,12 +92,11 @@ class Role(Base):
 
     @staticmethod
     def init_data(_):
-        session = get_new_session()
-        session.add(Role(name=u"站长", id=1))
-        session.add(Role(name=u"管理员", id=2))
-        session.add(Role(name=u"会员", id=3))
-        session.commit()
-        session.close()
+        with DatabaseContext() as db:
+            db.add(Role(name=u"站长", id=1))
+            db.add(Role(name=u"管理员", id=2))
+            db.add(Role(name=u"会员", id=3))
+            db.commit()
 
 
 @model
@@ -126,11 +124,15 @@ class Post(Base):
         return "<Post[%s]: %s>" % (self.id, self.title)
 
     def add_tags(self, *tags):
-        session = get_new_session()
-        for tag in tags:
-            session.add(Tag(tag, self.id))
-        session.commit()
-        session.close()
+        with DatabaseContext() as db:
+            for tag in tags:
+                db.add(Tag(tag, self.id))
+            db.commit()
+
+    def clear_tags(self):
+        with DatabaseContext() as db:
+            db.query(Tag).filter(Tag.post_id == self.id).delete()
+            db.commit()
 
     @staticmethod
     def init_data(_):
@@ -143,12 +145,11 @@ class Post(Base):
             with open(md_file_name, 'rb') as file_handle:
                 content = file_handle.read().decode('utf-8')
 
-            session = get_new_session()
-            welcome_post = Post(title=title, content=content, author_id=1)
-            session.add(welcome_post)
-            session.commit()
+            with DatabaseContext() as db:
+                welcome_post = Post(title=title, content=content, author_id=1)
+                db.add(welcome_post)
+                db.commit()
             welcome_post.add_tags('help', 'markdown')
-            session.close()
 
 
 @model

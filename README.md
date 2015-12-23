@@ -14,11 +14,4 @@ Flask based blog for myself.
 2. SQLAlchemy==1.0.10
 
 
-##TODO
-
- * add post list page for admin (new, show/hide, delete, edit)
- * add post edit page for admin (edit page and review page)
- * add image/file upload page (use qiniu as storage)
-
-
 

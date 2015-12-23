@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+  <div id="header-center">
+    <h1 id="title-h"><a href="/">ChocoBlog2</a></h1>
+    <small>this is subtitle, no one even notice this</small>
+  </div>
+  <div class="card">
+    <form class="card-content" action="{{ url_for('new_post') }}" method="post">
+      <input type="hidden" name="post_id" value="{% if post %}{{ post.id }}{% endif %}">
+      <div class="card-date-box">
+        <span class="card-date-box-day">{{ now.day }}</span><br>
+        <span class="card-date-box-month">{{ now.month }}</span>
+        <span class="card-date-box-year">{{ now.year }}</span>
+      </div>
+      <label for="post_name_input">Title:</label>
+      <input type="text" name="post_title" id="post_name_input" value="{% if post %}{{ post.title }}{% endif %}">
+      <br>
+      <label for="post_tags_input">Tags:</label>
+      <input type="text" name="post_tags" id="post_tags_input" value="{% if post %}{% for tag in post.tags %}{{ tag.name }}, {% endfor %}{% endif %}">
+      <br>
+      <label for="post_hidden_input">Hidden:</label>
+      <input type="checkbox" name="post_hidden" id="post_hidden_input" value="checked" {% if post and post.hidden %}checked{% endif %}>
+      <hr/>
+      <div id="content-main">
+        <label> Markdown-Content:
+        <textarea name="post_content" style="width: 100%; height: 500px;">{{ post.content }}</textarea>
+        </label>
+      </div>
+      <hr/>
+      <input type="submit" value="Submit">
+    </form>
+  </div>
+{% endblock %}
