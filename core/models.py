@@ -113,7 +113,7 @@ class Post(Base):
     hidden = Column(Boolean, nullable=False, default=False)
 
     author = relationship("User", uselist=False, backref="T_Post")
-    tags = relationship("Tag", uselist=True, backref="T_Post")
+    tags = relationship("Tag", uselist=True, backref="T_Post", cascade="all, delete, delete-orphan")
 
     def __init__(self, title, content, author_id, hidden=False):
         self.title = title

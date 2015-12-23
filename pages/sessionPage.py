@@ -53,9 +53,23 @@ def get_current_user():
     return None
 
 
+def need_authorized(function):
+    def wrapper(*args, **kwargs):
+        if get_current_user():
+            return function(*args, **kwargs)
+        else:
+            abort(404)
+    wrapper.__name__ = function.__name__
+    return wrapper
+
+
 @app.route('/sign-in', methods=['GET', 'POST'])
 def sign_in():
     if request.method == 'GET':
+        if 'user' in session:
+            del session['user']
+        if 'expires' in session:
+            del session['expires']
         secret = create_random_secret()
         session['secret'] = secret
         return render_template('sign-in.html', secret=secret)
