@@ -6,7 +6,7 @@
   </div>
   <div class="card" style="max-width: 500px; margin-left: auto; margin-right: auto; text-align: center;">
     <h1>Sign-in</h1>
-    <form action="/sign-in" method="post" name="sign-in-form" onsubmit="do_hash(this);">
+    <form action="{{ url_for('sign_in') }}" method="post" name="sign-in-form" onsubmit="do_hash(this);">
       <input class="form-control" type="hidden" name="secret" value="{{ secret }}">
       <div class="form-group">
         <label for="input-username">username</label><br>

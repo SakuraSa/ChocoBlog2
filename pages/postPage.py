@@ -39,7 +39,8 @@ def post_list_by_tag(tag, index=0, size=10):
     with DatabaseContext() as db:
         sqlite = db.query(Post) \
             .join(Tag) \
-            .filter(Tag.post_id == Post.id and Tag.name == tag) \
+            .filter(Tag.post_id == Post.id) \
+            .filter(Tag.name == tag) \
             .order_by(Post.post_time)
         if not get_current_user():
             sqlite = sqlite.filter(~Post.hidden)
@@ -113,29 +114,27 @@ def edit_post(post_id):
             return render_template('post_edit.html', post=post, now=now)
 
 
-@app.route('/post/delete/<int:post_id>')
-@need_authorized
-def delete_post(post_id):
-    with DatabaseContext() as db:
-        post = db.query(Post).filter(Post.id == post_id).first()
-        if not post:
-            abort(404)
-        db.delete(post)
-        db.commit()
-        return redirect(url_for('post_list'))
-
-
 @app.route('/post/<action>/<int:post_id>')
 @need_authorized
-def toggle_post_display(action, post_id):
+def post_action(action, post_id):
     action = action.lower().strip()
     takes = {'show': False, 'hide': True}
-    if action not in takes:
-        abort(400)
-    with DatabaseContext() as db:
-        post = db.query(Post).filter(Post.id == post_id).first()
-        if not post:
-            abort(404)
-        post.hidden = takes[action]
-        db.commit()
-        return redirect(url_for('post_show', post_id=post_id))
+    if action in takes:
+        with DatabaseContext() as db:
+            post = db.query(Post).filter(Post.id == post_id).first()
+            if not post:
+                abort(404)
+            post.hidden = takes[action]
+            db.commit()
+            return redirect(url_for('post_show', post_id=post_id))
+    elif action == 'delete':
+        with DatabaseContext() as db:
+            post = db.query(Post).filter(Post.id == post_id).first()
+            if not post:
+                abort(404)
+            db.delete(post)
+            db.commit()
+            return redirect(url_for('post_list'))
+    else:
+        abort(404)
+
