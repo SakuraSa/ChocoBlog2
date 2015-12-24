@@ -149,7 +149,7 @@ class Post(Base):
                 welcome_post = Post(title=title, content=content, author_id=1)
                 db.add(welcome_post)
                 db.commit()
-            welcome_post.add_tags('help', 'markdown')
+                welcome_post.add_tags('help', 'markdown')
 
 
 @model
