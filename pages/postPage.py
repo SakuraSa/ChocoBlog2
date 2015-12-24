@@ -24,7 +24,7 @@ __author__ = 'Rnd495'
 @app.route('/post/list/<int:index>/<int:size>', methods=['GET'])
 def post_list(index=0, size=10):
     with DatabaseContext() as db:
-        sqlite = db.query(Post).order_by(Post.post_time)
+        sqlite = db.query(Post).order_by(Post.post_time.desc())
         if not get_current_user():
             sqlite = sqlite.filter(~Post.hidden)
         page = Page(sqlite=sqlite, handler_name='post_list',
@@ -41,7 +41,7 @@ def post_list_by_tag(tag, index=0, size=10):
             .join(Tag) \
             .filter(Tag.post_id == Post.id) \
             .filter(Tag.name == tag) \
-            .order_by(Post.post_time)
+            .order_by(Post.post_time.desc())
         if not get_current_user():
             sqlite = sqlite.filter(~Post.hidden)
         page = Page(sqlite=sqlite, handler_name='post_list_by_tag',
