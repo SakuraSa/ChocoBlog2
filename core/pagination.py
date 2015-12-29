@@ -35,7 +35,7 @@ class Pagination(object):
 
     @property
     def next_url(self):
-        new_index = min(self.total_items - 1, self.index + 1)
+        new_index = min(self.total_page - 1, self.index + 1)
         return url_for(self.handler_name, index=new_index, size=self.size, **self.static_params)
 
     @property
@@ -44,7 +44,7 @@ class Pagination(object):
 
     @property
     def has_next(self):
-        return self.index < self.total_items - 1
+        return self.index < self.total_page - 1
 
     @property
     def single_page(self):
