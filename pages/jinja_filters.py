@@ -13,7 +13,7 @@ jinja_filters
 __author__ = 'Rnd495'
 
 
-MARKDOWN = markdown2.Markdown(extras=['code-friendly', 'fenced-code-blocks'])
+MARKDOWN = markdown2.Markdown(extras=['fenced-code-blocks', 'footnotes', 'tables'])
 
 
 @app.template_filter('markdown')

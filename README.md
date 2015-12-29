@@ -12,6 +12,7 @@ Flask based blog for myself.
 
 1. Flask=0.10.1
 2. SQLAlchemy==1.0.10
+3. Pygments==2.0.2  (optional, for code highlight)
 
 
 

@@ -212,9 +212,11 @@ a.text-danger {
     .card pre:hover {
       border-left-color: #6666aa; }
   .card code {
-    padding: 0;
+    padding: 1px;
     color: #ffffff;
-    line-height: 5%; }
+    line-height: 5%;
+    background-color: #3C3F41;
+    border-radius: 3px; }
 
 .card-content {
   width: 100%; }
@@ -313,5 +315,27 @@ a.text-danger {
     position: absolute; }
     .pagination-pager .pagination-index-detail span {
       padding: 0 10px 0 10px; }
+
+table {
+  max-width: 100%;
+  width: 100%;
+  margin-bottom: 20px; }
+  table > thead > tr > th, table > tbody > tr > th, table > tfoot > tr > th, table > thead > tr > td, table > tbody > tr > td, table > tfoot > tr > td {
+    padding: 8px;
+    line-height: 1.428571429;
+    vertical-align: top; }
+  table > thead > tr > th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #ddd; }
+  table > caption + thead > tr:first-child > th, table > colgroup + thead > tr:first-child > th, table > thead:first-child > tr:first-child > th, table > caption + thead > tr:first-child > td, table > colgroup + thead > tr:first-child > td, table > thead:first-child > tr:first-child > td {
+    border-top: 0; }
+  table > tbody > tr:hover > td, table > tbody > tr:hover > th {
+    background-color: #f5f5f5; }
+
+th {
+  text-align: left; }
+
+img {
+  max-width: 100%; }
 
 /*# sourceMappingURL=base.css.map */

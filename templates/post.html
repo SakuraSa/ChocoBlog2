@@ -1,4 +1,16 @@
 {% extends "base.html" %}
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="/static/css/code_theme/monokai.css"/>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [["\\(","\\)"]]
+    }
+  });
+</script>
+  <script type="text/javascript" src="http://cdn.bootcss.com/mathjax/2.6.0-beta.2/MathJax.js?config=TeX-AMS_HTML-full"></script>
+{% endblock %}
 {% block content %}
   <div id="header-center">
     <h1 id="title-h"><a href="/">ChocoBlog2</a></h1>
