@@ -1,6 +1,7 @@
 #ChocoBlog2
 
-Flask based blog for myself.
+Flask based blog for myself [Demo](https://blog.chocoworks.net/).
+
 
 ##Setup
 
